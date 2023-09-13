@@ -1,5 +1,10 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import openai 
 import prompts
+
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
@@ -61,13 +66,12 @@ def sendAPIRequest(systemPrompt, messagePrompt):
     return True, response
 
 
-# API route that initiates the OpenAI API call
+# API route that initiates the OpenAI API
 @app.route('/checkScam', methods=['POST'])
 def scamWatch():
-
     # Set the openAI api key 
     with open(".env", 'r') as APIKey:
-        openai.api_key = APIKey.read().strip()
+        openai.api_key = os.getenv("OPENAI_API_KEY")
 
     # import the prompts constants for making openAI API calls
     systemPrompt = prompts.SYSTEM
